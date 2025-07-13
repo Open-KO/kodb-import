@@ -1,0 +1,30 @@
+# configuration for the database
+# Do not commit changes to this file unless it is for new configuration properties.
+databaseConfig:
+  host: localhost
+  instance: SQLEXPRESS
+  port: 1433
+  user: YourUser (Leave Blank for Windows Auth)
+  password: YourPassword
+
+# Database Generation configuration
+# Order of operations:  Create DBs (with schemas), Create Users (with schemas), Create Logins (to databases)
+genConfig:
+  # database project is setup as a git submodule
+  # To fetch or update the submodule(s): git submodule update --init --recursive --remote
+  schemaDir: ./OpenKO-db
+  gameDb:
+    - name: KN_online
+      schemas:
+        - knight
+      # logins are stored under db config as a way of specifying their default database;
+      # the same login should not be specified for multiple dbs
+      logins:
+        - name: knight
+          pass: knight
+      # we're creating users at the database-level to discourage the use of system database users
+      # it should be OK to create the same user in multiple non-system databases if you want to
+      # reuse the same user
+      users:
+        - name: knight
+          schema: knight
